@@ -7,6 +7,7 @@ const cors = require("cors");
 const apiVersion = 1;
 
 const usersRouter = require("./routes/users");
+const categoryRouter = require("./routes/category.route");
 const authorRouter = require("./routes/author.route");
 
 const app = express();
@@ -20,5 +21,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/users", usersRouter);
 app.use(`/api/v${apiVersion}/author`, authorRouter);
+app.use(`/api/v${apiVersion}/category`, categoryRouter);
 
 module.exports = app;

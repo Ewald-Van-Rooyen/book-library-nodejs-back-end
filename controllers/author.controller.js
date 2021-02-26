@@ -54,10 +54,9 @@ class AuthorController {
       options.where["lastName"] = lastName;
     }
 
-    console.log(options);
     try {
       const authors = await Author.findAll(options);
-      return result.status(200).json({authors});
+      return result.status(200).json(authors);
     } catch (error) {
       return result.status(500).json({error: error.message});
     }

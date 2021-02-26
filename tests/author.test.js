@@ -12,7 +12,7 @@ describe("Authors API", () => {
     const result = await request(app).get(authorUrl);
 
     expect(result.statusCode).toEqual(200);
-    expect(result.body).toHaveProperty("authors");
+    expect(result.body[0]).toHaveProperty("firstName");
     done();
   });
 

@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const CategoryController = require("../controllers/category.controller");
-
+const verifyToken = require("../middleware/verification.middleware");
 const categoryController = new CategoryController();
+
+router.use(verifyToken);
 
 router.post("/", categoryController.createCategory);
 router.get("/", categoryController.getAllCategories);

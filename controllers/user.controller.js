@@ -84,7 +84,7 @@ class UserController {
         if (!authenticated) return result.status(404).send("User not found");
         const token = generateToken(user.id);
 
-        return result.status(200).send({auth: true, token: token});
+        return result.status(200).send({authorized : true, token: token});
 
       } else {
         return result.status(404).send("User not found");

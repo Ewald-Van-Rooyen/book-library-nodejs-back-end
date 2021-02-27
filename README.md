@@ -17,6 +17,7 @@ npm install
 * [Morgan](https://github.com/expressjs/morgan) HTTP request logger middleware
 * [Winston](https://github.com/winstonjs/winston) Logging
 * [Sequilize](https://sequelize.org/v3/) ORM for mysql
+* [Sequilize-cli](https://github.com/sequelize/cli) Db generation
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

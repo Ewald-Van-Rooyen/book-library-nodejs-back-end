@@ -42,7 +42,7 @@ class BookController {
   async getAllBooks(request, result) {
     const {page, size, sortBy, orderBy, name, isbnNumber, yearPublished} = request.query;
 
-    const options = {};
+    const options = {include: ["author", "category"]};
 
     if (size) {
       options.limit = parseInt(size);

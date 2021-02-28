@@ -60,7 +60,7 @@ describe("Authors API", () => {
     done();
   });
 
-  it("should delete a user", async (done) => {
+  it("should delete an author", async (done) => {
     const result = await request(app)
       .del(`${authorUrl}/3`);
     expect(result.statusCode).toEqual(204);

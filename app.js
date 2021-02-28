@@ -9,6 +9,9 @@ const apiVersion = 1;
 const usersRouter = require("./routes/user.route");
 const categoryRouter = require("./routes/category.route");
 const authorRouter = require("./routes/author.route");
+const bookRouter = require("./routes/book.route");
+
+const db = require("./models/index");
 
 const app = express();
 
@@ -22,5 +25,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(`/api/v${apiVersion}`, usersRouter);
 app.use(`/api/v${apiVersion}/author`, authorRouter);
 app.use(`/api/v${apiVersion}/category`, categoryRouter);
+app.use(`/api/v${apiVersion}/book`, bookRouter);
+
+db.sequelize.sync()
+  .then(() => {
+    console.log("Database & tables created!");
+  });
 
 module.exports = app;

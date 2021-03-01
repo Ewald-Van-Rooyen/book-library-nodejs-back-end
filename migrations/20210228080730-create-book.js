@@ -28,10 +28,16 @@ module.exports = {
       authorId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {         // User hasMany WorkingDays n:n
+        references: {
           model: "Authors",
           key: "id",
         },
+      },
+      createdBy: {
+        type: Sequelize.STRING,
+      },
+      updatedBy: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

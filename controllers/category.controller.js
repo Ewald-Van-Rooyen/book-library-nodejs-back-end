@@ -4,6 +4,7 @@ class CategoryController {
 
   async createCategory(request, result) {
     const body = request.body;
+    const username = request.headers["x-access-username"];
 
     if (!body) {
       return result.status(400).send("No request body present");
@@ -18,7 +19,7 @@ class CategoryController {
     }
 
     try {
-      const newCategory = await Category.create(body);
+      const newCategory = await Category.create({...body, createdBy: username});
       return result.status(201).json(newCategory);
     } catch (error) {
       return result.status(500).json({error: error.message});
@@ -87,6 +88,7 @@ class CategoryController {
   async updateCategory(request, result) {
     const {id} = request.params;
     const body = request.body;
+    const username = request.headers["x-access-username"];
 
     if (!id) {
       return result.status(400).send("No id parameter present");
@@ -97,7 +99,7 @@ class CategoryController {
     }
 
     try {
-      const [updated] = await Category.update(body, {
+      const [updated] = await Category.update({...body, updatedBy: username}, {
         where: {id: id},
       });
 

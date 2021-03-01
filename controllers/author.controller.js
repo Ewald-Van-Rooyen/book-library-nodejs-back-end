@@ -4,6 +4,7 @@ class AuthorController {
 
   async createAuthor(request, result) {
     const body = request.body;
+    const username = request.headers["x-access-username"];
 
     if (!body) {
       return result.status(400).send("No request body present");
@@ -18,7 +19,7 @@ class AuthorController {
     }
 
     try {
-      const newAuthor = await Author.create(body);
+      const newAuthor = await Author.create({...body, createdBy: username});
       return result.status(201).json(newAuthor);
     } catch (error) {
       return result.status(500).json({error: error.message});
@@ -87,6 +88,7 @@ class AuthorController {
   async updateAuthor(request, result) {
     const {id} = request.params;
     const body = request.body;
+    const username = request.headers["x-access-username"];
 
     if (!id) {
       return result.status(400).send("No id parameter present");
@@ -97,7 +99,7 @@ class AuthorController {
     }
 
     try {
-      const [updated] = await Author.update(body, {
+      const [updated] = await Author.update({...body, updatedBy: username}, {
         where: {id: id},
       });
 

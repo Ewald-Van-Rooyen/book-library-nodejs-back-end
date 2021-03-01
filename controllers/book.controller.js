@@ -4,6 +4,7 @@ class BookController {
 
   async createBook(request, result) {
     const body = request.body;
+    const username = request.headers["x-access-username"];
 
     // todo investigate object verify method
     if (!body) {
@@ -31,7 +32,7 @@ class BookController {
     }
 
     try {
-      const newBook = await Book.create(body);
+      const newBook = await Book.create({...body, createdBy: username});
       return result.status(201).json(newBook);
     } catch (error) {
       return result.status(500).json({error: error.message});
@@ -103,6 +104,7 @@ class BookController {
   async updateBook(request, result) {
     const {id} = request.params;
     const body = request.body;
+    const username = request.headers["x-access-username"];
 
     if (!id) {
       return result.status(400).send("No id parameter present");
@@ -113,7 +115,7 @@ class BookController {
     }
 
     try {
-      const [updated] = await Book.update(body, {
+      const [updated] = await Book.update({...body, updatedBy: username}, {
         where: {id: id},
       });
 
@@ -152,7 +154,6 @@ class BookController {
       return result.status(500).json({error: error.message});
     }
   }
-
 
 }
 

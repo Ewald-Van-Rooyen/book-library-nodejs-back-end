@@ -6,6 +6,7 @@ const app = require("../app");
 const version = 1;
 const categoryUrl = `/api/v${version}/category`;
 const baseUrl = `/api/v${version}/`;
+const username = "admin";
 
 let token = null;
 
@@ -56,12 +57,14 @@ describe("Category API", () => {
         name: "Horror",
         description: "Spooky stuff",
       })
-      .set("x-access-token", token);
+      .set("x-access-token", token)
+      .set("x-access-username", username);
 
     expect(result.statusCode).toEqual(201);
     expect(result.body).toHaveProperty("name");
     expect(result.body.name).toEqual("Horror");
     expect(result.body.description).toEqual("Spooky stuff");
+    expect(result.body.createdBy).toEqual(username);
     done();
   });
 
@@ -73,18 +76,21 @@ describe("Category API", () => {
     expect(getResult.body).toHaveProperty("name");
     expect(getResult.body.name).toEqual("Dark Fantasy");
     expect(getResult.body.description).toEqual("Old Fantasy description stuff here");
+    expect(getResult.body.createdBy).toEqual("root");
 
     const result = await request(app)
       .put(`${categoryUrl}/3`)
       .send({
         name: "Light Fantasy",
         description: "Fairy stuff and all that",
-      }).set("x-access-token", token);
+      }).set("x-access-token", token)
+      .set("x-access-username", username);
 
     expect(result.statusCode).toEqual(200);
     expect(result.body).toHaveProperty("name");
     expect(result.body.name).toEqual("Light Fantasy");
     expect(result.body.description).toEqual("Fairy stuff and all that");
+    expect(result.body.updatedBy).toEqual(username);
     done();
   });
 

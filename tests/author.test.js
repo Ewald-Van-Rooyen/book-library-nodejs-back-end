@@ -8,6 +8,7 @@ const authorUrl = `/api/v${version}/author`;
 const baseUrl = `/api/v${version}/`;
 
 let token = null;
+const username = "admin";
 
 describe("Authors API", () => {
 
@@ -55,35 +56,39 @@ describe("Authors API", () => {
         firstName: "Ewald",
         lastName: "Van Rooyen",
       })
-      .set("x-access-token", token);
+      .set("x-access-token", token)
+      .set("x-access-username", username);
 
     expect(result.statusCode).toEqual(201);
     expect(result.body).toHaveProperty("firstName");
     expect(result.body.firstName).toEqual("Ewald");
     expect(result.body.lastName).toEqual("Van Rooyen");
+    expect(result.body.createdBy).toEqual(username);
     done();
   });
 
   it("should update an author", async (done) => {
     const getResult = await request(app).get(`${authorUrl}/3`)
-      .set("x-access-token", token);
+      .set("x-access-token", token).set("x-access-username", username);
 
     expect(getResult.statusCode).toEqual(200);
     expect(getResult.body).toHaveProperty("firstName");
     expect(getResult.body.firstName).toEqual("Theodor");
     expect(getResult.body.lastName).toEqual("Seuss");
+    expect(getResult.body.createdBy).toEqual(username);
 
     const result = await request(app)
       .put(`${authorUrl}/3`)
       .send({
         firstName: "Ryan",
         lastName: "Van Der Merwe",
-      }).set("x-access-token", token);
+      }).set("x-access-token", token).set("x-access-username", "root");
 
     expect(result.statusCode).toEqual(200);
     expect(result.body).toHaveProperty("firstName");
     expect(result.body.firstName).toEqual("Ryan");
     expect(result.body.lastName).toEqual("Van Der Merwe");
+    expect(result.body.updatedBy).toEqual("root");
     done();
   });
 

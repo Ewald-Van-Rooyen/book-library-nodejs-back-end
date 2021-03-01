@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     isbnNumber: DataTypes.STRING,
     yearPublished: DataTypes.INTEGER,
+    createdBy: DataTypes.STRING,
+    updatedBy: DataTypes.STRING,
   }, {
     sequelize,
     modelName: "Book",

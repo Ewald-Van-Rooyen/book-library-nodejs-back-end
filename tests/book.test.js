@@ -8,6 +8,7 @@ const bookUrl = `/api/v${version}/book`;
 const baseUrl = `/api/v${version}/`;
 
 let token = null;
+const username = "root";
 
 describe("Books API", () => {
 
@@ -58,13 +59,15 @@ describe("Books API", () => {
         isbnNumber: "1",
         categoryId: 1,
         authorId: 1,
-      }).set("x-access-token", token);
+      }).set("x-access-token", token)
+      .set("x-access-username", username);
 
     expect(result.statusCode).toEqual(201);
     expect(result.body).toHaveProperty("name");
     expect(result.body.name).toEqual("Book1");
     expect(result.body.yearPublished).toEqual(2021);
     expect(result.body.isbnNumber).toEqual("1");
+    expect(result.body.createdBy).toEqual(username);
     done();
   });
 
@@ -76,6 +79,7 @@ describe("Books API", () => {
     expect(getResult.body).toHaveProperty("name");
     expect(getResult.body.name).toEqual("Horton Hatches the Egg");
     expect(getResult.body.yearPublished).toEqual(1940);
+    expect(getResult.body.createdBy).toEqual("admin");
 
     const result = await request(app)
       .put(`${bookUrl}/3`)
@@ -84,13 +88,15 @@ describe("Books API", () => {
         yearPublished: 1942,
         categoryId: 1,
         authorId: 1,
-      }).set("x-access-token", token);
+      }).set("x-access-token", token)
+      .set("x-access-username", username);
 
 
     expect(result.statusCode).toEqual(200);
     expect(result.body).toHaveProperty("name");
     expect(result.body.name).toEqual("Ryan");
     expect(result.body.yearPublished).toEqual(1942);
+    expect(result.body.updatedBy).toEqual(username);
     done();
   });
 

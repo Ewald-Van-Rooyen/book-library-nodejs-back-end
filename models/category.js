@@ -1,5 +1,5 @@
 const {
-  Model
+  Model,
 } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Category extends Model {
@@ -9,12 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Category.hasMany(models.Book, {foreignKey: "categoryId", sourceKey: "id"});
+      Category.hasMany(models.Book, {
+        foreignKey: "categoryId",
+        sourceKey: "id",
+      });
     }
   }
+
   Category.init({
     name: DataTypes.STRING,
-    description: DataTypes.STRING
+    description: DataTypes.STRING,
+    createdBy: DataTypes.STRING,
+    updatedBy: DataTypes.STRING,
   }, {
     sequelize,
     modelName: "Category",

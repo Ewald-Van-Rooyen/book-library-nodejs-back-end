@@ -1,15 +1,38 @@
-const {describe, it, expect} = require("@jest/globals");
+const {describe, it, expect, beforeAll} = require("@jest/globals");
 
 const request = require("supertest");
 const app = require("../app");
 
 const version = 1;
 const authorUrl = `/api/v${version}/author`;
+const baseUrl = `/api/v${version}/`;
+
+let token = null;
 
 describe("Authors API", () => {
 
-  it("should show all authors", async (done) => {
+  beforeAll((done) => {
+    request(app)
+      .post(`${baseUrl}/signin`)
+      .send({
+        username: "admin",
+        password: "12345678",
+      })
+      .end((err, response) => {
+        token = response.body.token;
+        done();
+      });
+  });
+
+  it("Author without auth token should fail", async (done) => {
     const result = await request(app).get(authorUrl);
+    expect(result.statusCode).toEqual(403);
+    done();
+  });
+
+  it("should show all authors", async (done) => {
+    const result = await request(app).get(authorUrl)
+      .set("x-access-token", token);
 
     expect(result.statusCode).toEqual(200);
     expect(result.body[0]).toHaveProperty("firstName");
@@ -17,7 +40,8 @@ describe("Authors API", () => {
   });
 
   it("should show a author id 1", async (done) => {
-    const result = await request(app).get(`${authorUrl}/1`);
+    const result = await request(app).get(`${authorUrl}/1`)
+      .set("x-access-token", token);
 
     expect(result.statusCode).toEqual(200);
     expect(result.body).toHaveProperty("firstName");
@@ -30,7 +54,8 @@ describe("Authors API", () => {
       .send({
         firstName: "Ewald",
         lastName: "Van Rooyen",
-      });
+      })
+      .set("x-access-token", token);
 
     expect(result.statusCode).toEqual(201);
     expect(result.body).toHaveProperty("firstName");
@@ -40,7 +65,8 @@ describe("Authors API", () => {
   });
 
   it("should update an author", async (done) => {
-    const getResult = await request(app).get(`${authorUrl}/3`);
+    const getResult = await request(app).get(`${authorUrl}/3`)
+      .set("x-access-token", token);
 
     expect(getResult.statusCode).toEqual(200);
     expect(getResult.body).toHaveProperty("firstName");
@@ -52,7 +78,8 @@ describe("Authors API", () => {
       .send({
         firstName: "Ryan",
         lastName: "Van Der Merwe",
-      });
+      }).set("x-access-token", token);
+
     expect(result.statusCode).toEqual(200);
     expect(result.body).toHaveProperty("firstName");
     expect(result.body.firstName).toEqual("Ryan");
@@ -60,10 +87,35 @@ describe("Authors API", () => {
     done();
   });
 
-  it("should delete an author", async (done) => {
-    const result = await request(app)
-      .del(`${authorUrl}/3`);
+  it("should delete a disjoint author", async (done) => {
+    const createResult = await request(app)
+      .post(authorUrl)
+      .send({
+        firstName: "Senior",
+        lastName: "Delete me",
+      })
+      .set("x-access-token", token);
+
+    expect(createResult.statusCode).toEqual(201);
+    expect(createResult.body).toHaveProperty("firstName");
+    expect(createResult.body).toHaveProperty("id");
+    expect(createResult.body.firstName).toEqual("Senior");
+
+    const newAuthorId = createResult.body.id;
+
+    const result = await request(app).del(`${authorUrl}/${newAuthorId}`)
+      .set("x-access-token", token);
+
     expect(result.statusCode).toEqual(204);
+    done();
+  });
+
+  it("should not be able to delete an assigned author", async (done) => {
+
+    const result = await request(app).del(`${authorUrl}/3`)
+      .set("x-access-token", token);
+
+    expect(result.statusCode).toEqual(500);
     done();
   });
 

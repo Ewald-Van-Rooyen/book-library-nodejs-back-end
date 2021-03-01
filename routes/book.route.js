@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
+const verifyToken = require("../middleware/verification.middleware");
 const BookController = require("../controllers/book.controller");
 const bookController = new BookController();
 
-//router.use(verifyToken);
+router.use(verifyToken);
 
 router.post("/", bookController.createBook);
 router.get("/:id", bookController.getBookById);

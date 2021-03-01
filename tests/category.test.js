@@ -1,15 +1,38 @@
-const {describe, it, expect} = require("@jest/globals");
+const {describe, it, expect, beforeAll} = require("@jest/globals");
 
 const request = require("supertest");
 const app = require("../app");
 
 const version = 1;
 const categoryUrl = `/api/v${version}/category`;
+const baseUrl = `/api/v${version}/`;
+
+let token = null;
 
 describe("Category API", () => {
 
-  it("should show all categories", async (done) => {
+  beforeAll((done) => {
+    request(app)
+      .post(`${baseUrl}/signin`)
+      .send({
+        username: "admin",
+        password: "12345678",
+      })
+      .end((err, response) => {
+        token = response.body.token;
+        done();
+      });
+  });
+
+  it("Category without auth token should fail", async (done) => {
     const result = await request(app).get(categoryUrl);
+    expect(result.statusCode).toEqual(403);
+    done();
+  });
+
+  it("should show all categories", async (done) => {
+    const result = await request(app).get(categoryUrl)
+      .set("x-access-token", token);
 
     expect(result.statusCode).toEqual(200);
     expect(result.body[0]).toHaveProperty("description");
@@ -17,7 +40,8 @@ describe("Category API", () => {
   });
 
   it("should show a category id 1", async (done) => {
-    const result = await request(app).get(`${categoryUrl}/1`);
+    const result = await request(app).get(`${categoryUrl}/1`)
+      .set("x-access-token", token);
 
     expect(result.statusCode).toEqual(200);
     expect(result.body).toHaveProperty("name");
@@ -31,7 +55,8 @@ describe("Category API", () => {
       .send({
         name: "Horror",
         description: "Spooky stuff",
-      });
+      })
+      .set("x-access-token", token);
 
     expect(result.statusCode).toEqual(201);
     expect(result.body).toHaveProperty("name");
@@ -41,7 +66,8 @@ describe("Category API", () => {
   });
 
   it("should update an category", async (done) => {
-    const getResult = await request(app).get(`${categoryUrl}/3`);
+    const getResult = await request(app).get(`${categoryUrl}/3`)
+      .set("x-access-token", token);
 
     expect(getResult.statusCode).toEqual(200);
     expect(getResult.body).toHaveProperty("name");
@@ -53,8 +79,8 @@ describe("Category API", () => {
       .send({
         name: "Light Fantasy",
         description: "Fairy stuff and all that",
-      });
-    console.log(result.body);
+      }).set("x-access-token", token);
+
     expect(result.statusCode).toEqual(200);
     expect(result.body).toHaveProperty("name");
     expect(result.body.name).toEqual("Light Fantasy");
@@ -62,9 +88,31 @@ describe("Category API", () => {
     done();
   });
 
-  it("should delete a user", async (done) => {
-    const result = await request(app)
-      .del(`${categoryUrl}/3`);
+  it("should not be able to delete an assigned category", async (done) => {
+    const result = await request(app).del(`${categoryUrl}/3`)
+      .set("x-access-token", token);
+    expect(result.statusCode).toEqual(500);
+    done();
+  });
+
+  it("should be able to delete a disjoint category", async (done) => {
+    const createResult = await request(app)
+      .post(categoryUrl)
+      .send({
+        name: "Senior",
+        description: "Delete me",
+      })
+      .set("x-access-token", token);
+
+    expect(createResult.statusCode).toEqual(201);
+    expect(createResult.body).toHaveProperty("name");
+    expect(createResult.body.name).toEqual("Senior");
+    expect(createResult.body).toHaveProperty("id");
+
+    const createResultId = createResult.body.id;
+
+    const result = await request(app).del(`${categoryUrl}/${createResultId}`)
+      .set("x-access-token", token);
     expect(result.statusCode).toEqual(204);
     done();
   });

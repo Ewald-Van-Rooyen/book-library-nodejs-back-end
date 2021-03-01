@@ -13,10 +13,22 @@ describe("User API", () => {
       .post(`${baseUrl}/signin`)
       .send({
         username: "admin",
-        password: "admin",
+        password: "12345678",
       });
 
     expect(result.statusCode).toEqual(200);
+    done();
+  });
+
+  it("should fail signin a user due to incorrect password length", async (done) => {
+    const result = await request(app)
+      .post(`${baseUrl}/signin`)
+      .send({
+        username: "admin",
+        password: "1234",
+      });
+
+    expect(result.statusCode).toEqual(404);
     done();
   });
 

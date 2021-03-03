@@ -12,7 +12,7 @@ The installation of this project requires the system to have [Node.js](http://no
 npm install
 ```
 
-To create and setup the database, run the following command (Assuming mysql in present on the system)
+To create and setup the database, run the following command (Assuming mysql in present on the system).
 
 ```bash
 npm run db:setup
@@ -20,7 +20,7 @@ npm run db:setup
 
 ## Run the application
 
-To run the application, this will serve on PORT 4000
+To run the application, this will serve on PORT 4000.
 
 ```bash
 npm start
@@ -36,13 +36,13 @@ npm test
 
 ## Documentation
 
-When the application is running using the /api-docs url will display all the swagger documentation in the browser
+When the application is running using the /api-docs url will display all the swagger documentation in the browser.
 
 ## Disclaimers
 
-* I could not setup docker due to me not having a linux system or Windows professional license, tried to do it online. To no avail
+* I could not setup docker due to me not having a linux system or Windows professional license, tried to do it online. To no avail.
 * Sometimes the tests fail due to testing of deleting Category and Author that has been assigned to a Book.
-The book does sometimes not exists yet, so the response is a 204 and not a 500
+The book does sometimes not exists yet, so the response is a 204 and not a 500.
 
 ## Technologies
 

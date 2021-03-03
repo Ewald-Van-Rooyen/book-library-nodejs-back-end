@@ -1,0 +1,1009 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Book Library",
+    "description": "Collection of the Book Library API's",
+    "version": "0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000"
+    }
+  ],
+  "paths": {
+    "/api/v1/category": {
+      "get": {
+        "description": "Get all catergories",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return all catergories",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                },
+                "examples": {
+                  "horror": {
+                    "value": {
+                      "id": 1,
+                      "name": "Horror",
+                      "description": "Scary stuff"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "post": {
+        "description": "Create new category",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUzODY3LCJleHAiOjE2MTQ0NTQxNjd9.xlgqha101befXRFkRVNsD7ePLdplKl2Zmpp3g2M-y_c"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              },
+              "examples": {
+                "children": {
+                  "value": {
+                    "name": "Children",
+                    "description": "Children description stuff here"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resources created code",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                },
+                "examples": {
+                  "children": {
+                    "value": {
+                      "name": "Children",
+                      "description": "Children description stuff here"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://localhost:4000"
+        }
+      ]
+    },
+    "/api/v1/signup": {
+      "post": {
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "newUser": {
+                  "value": {
+                    "username": "root",
+                    "fullName": "Root de root",
+                    "email": "root@root.com",
+                    "password": "12345678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns a token",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "newUser": {
+                    "value": {
+                      "authorized": true,
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://localhost:4000"
+        }
+      ]
+    },
+    "/api/v1/category/1": {
+      "get": {
+        "description": "Fetch category by id",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success on fetch",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                },
+                "examples": {
+                  "children": {
+                    "value": {
+                      "name": "Children",
+                      "description": "Children description stuff here"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:3000"
+          }
+        ]
+      },
+      "put": {
+        "description": "Alter category by id",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success on put",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                },
+                "examples": {
+                  "children": {
+                    "value": {
+                      "name": "Children",
+                      "description": "Children description stuff here"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:3000"
+          }
+        ]
+      },
+      "delete": {
+        "description": "Fetch category by id",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success on fetch",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:3000"
+          }
+        ]
+      }
+    },
+    "/api/v1/author": {
+      "get": {
+        "description": "Fetch the entire Author collection",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success on Authors fetch",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Author"
+                },
+                "examples": {
+                  "Author": {
+                    "value": {
+                      "firstName": "Author",
+                      "lastName": "rohtua"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "post": {
+        "description": "Create an author",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUzODY3LCJleHAiOjE2MTQ0NTQxNjd9.xlgqha101befXRFkRVNsD7ePLdplKl2Zmpp3g2M-y_c"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Author"
+              },
+              "examples": {
+                "Author": {
+                  "value": {
+                    "firstName": "Author",
+                    "lastName": "rohtua"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created a new Author",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Author"
+                },
+                "examples": {
+                  "Author": {
+                    "value": {
+                      "id": 1,
+                      "firstName": "Author",
+                      "lastName": "rohtua"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://localhost:4000"
+        }
+      ]
+    },
+    "/api/v1/signin": {
+      "post": {
+        "description": "Sign into the book library",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "Signin": {
+                  "value": {
+                    "username": "admin",
+                    "password": "12345678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "validUser": {
+                    "value": {
+                      "authorized": true,
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://localhost:4000"
+        }
+      ]
+    },
+    "/api/v1/author/1": {
+      "get": {
+        "description": "Fetch Author by id",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Author request",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Author"
+                },
+                "examples": {
+                  "Author": {
+                    "value": {
+                      "id": 1,
+                      "firstName": "Author",
+                      "lastName": "rohtua"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "put": {
+        "description": "Alter Author by id",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Author alter request",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Author"
+                },
+                "examples": {
+                  "Author": {
+                    "value": {
+                      "id": 1,
+                      "firstName": "Author",
+                      "lastName": "rohtua"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "delete": {
+        "description": "Delete Author by id",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUyNjkxLCJleHAiOjE2MTQ0NTI5OTF9.2ksP_imSIY5RXhBmPo7-Xb-h2MjeDoIZNi4yQzcJ-8A"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success on Author delete request by id",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Author"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://localhost:4000"
+        }
+      ]
+    },
+    "/api/v1/book": {
+      "get": {
+        "description": "Get all books",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0Njg3NzMzLCJleHAiOjE2MTQ2ODgwMzN9.9rlul6jyKZLzivLp5aIcAmbSA7UP0kiIO_HeUMo5HlE"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all Books",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                },
+                "examples": {
+                  "Book": {
+                    "value": {
+                      "id": 1,
+                      "name": "Book 1",
+                      "yearPublished": 2012,
+                      "isbnNumber": "3216351684321",
+                      "categoryId": 1,
+                      "authorId": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "post": {
+        "description": "Create new book",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0NDUzODY3LCJleHAiOjE2MTQ0NTQxNjd9.xlgqha101befXRFkRVNsD7ePLdplKl2Zmpp3g2M-y_c"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              },
+              "examples": {
+                "Book": {
+                  "value": {
+                    "name": "Book 1",
+                    "yearPublished": 2012,
+                    "isbnNumber": "3216351684321",
+                    "categoryId": 1,
+                    "authorId": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resources created code",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                },
+                "examples": {
+                  "Book": {
+                    "value": {
+                      "name": "Book 1",
+                      "yearPublished": 2012,
+                      "isbnNumber": "3216351684321",
+                      "categoryId": 1,
+                      "authorId": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      }
+    },
+    "/api/v1/book/1": {
+      "get": {
+        "description": "Get book by id",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0Njg3NzMzLCJleHAiOjE2MTQ2ODgwMzN9.9rlul6jyKZLzivLp5aIcAmbSA7UP0kiIO_HeUMo5HlE"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success on book fetch",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                },
+                "examples": {
+                  "Book": {
+                    "value": {
+                      "id": 1,
+                      "name": "Book 1",
+                      "yearPublished": 2012,
+                      "isbnNumber": "3216351684321",
+                      "categoryId": 1,
+                      "authorId": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "put": {
+        "description": "Get book by id",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0Njg3NzMzLCJleHAiOjE2MTQ2ODgwMzN9.9rlul6jyKZLzivLp5aIcAmbSA7UP0kiIO_HeUMo5HlE"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success on book alteration",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                },
+                "examples": {
+                  "Book": {
+                    "value": {
+                      "name": "Book 1",
+                      "yearPublished": 2012,
+                      "isbnNumber": "3216351684321",
+                      "categoryId": 1,
+                      "authorId": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      },
+      "delete": {
+        "description": "Delete book by id",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE0Njg3NzMzLCJleHAiOjE2MTQ2ODgwMzN9.9rlul6jyKZLzivLp5aIcAmbSA7UP0kiIO_HeUMo5HlE"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success on book deleteion",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:4000"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "fullname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "description": "User entity"
+      },
+      "Author": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "description": "Author entity"
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "description": "Category entity"
+      },
+      "Book": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "yearPublished": {
+            "type": "integer"
+          },
+          "isbnNumber": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "integer"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Book_category"
+          },
+          "authorId": {
+            "type": "integer"
+          },
+          "author": {
+            "$ref": "#/components/schemas/Book_author"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "description": "Books entity"
+      },
+      "Book_category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "Book_author": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

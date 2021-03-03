@@ -1,5 +1,8 @@
 const {Author} = require("../models");
 
+/**
+ * AuthorController that handles all the router requests of CRUD functionality
+ */
 class AuthorController {
 
   async createAuthor(request, result) {
@@ -27,6 +30,7 @@ class AuthorController {
   }
 
   async getAllAuthors(request, result) {
+    // Pagination, filtering, and ordering query params
     const {page, size, sortBy, orderBy, firstName, lastName} = request.query;
 
     const options = {};
@@ -88,6 +92,7 @@ class AuthorController {
   async updateAuthor(request, result) {
     const {id} = request.params;
     const body = request.body;
+    // Used to track what user alters the entity
     const username = request.headers["x-access-username"];
 
     if (!id) {
@@ -116,7 +121,6 @@ class AuthorController {
       return result.status(500).json({error: error.message});
     }
   }
-
 
   async removeAuthorById(request, result) {
     const {id} = request.params;

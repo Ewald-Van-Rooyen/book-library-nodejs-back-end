@@ -45,6 +45,7 @@ class UserController {
       return result.status(400).send("No request body password value present");
     }
 
+    // Encrypt password before saving to the db
     const password = bcrypt.hashSync(body.password, 8);
     body.password = password;
 
@@ -79,6 +80,7 @@ class UserController {
       });
 
       if (user) {
+        // Match encrypted passwords
         const authenticated = await doesPasswordMatch(body.password, user.password);
 
         if (!authenticated) return result.status(404).send("User not found");
